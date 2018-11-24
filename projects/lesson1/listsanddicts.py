@@ -16,12 +16,12 @@ l.remove('Python')
 
 #Создайте такой словарь: ...
 
-l = {'city': "Moscow", 'temperature': '20'}
-print(l.get('city'))
-l['temperature'] = str(int(l['temperature']) - 5)
-print(l)
-print(l.__contains__('country'))
-print(l.get('country', 'Russia'))
-l['date'] = '27.05.2017'
+d = {'city': "Moscow", 'temperature': '20'}
+print(d.get('city'))
+d['temperature'] = str(int(d['temperature']) - 5)
+print(d)
+print(d.__contains__('country'))
+print(d.get('country', 'Russia'))
+d['date'] = '27.05.2017'
 #print(l)
-print(len(l))
+print(len(d))
