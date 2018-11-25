@@ -1,4 +1,5 @@
 #functions task 2
+
 def format_price(price):
 	return (f'Цена: {int(price)} руб.')
 
