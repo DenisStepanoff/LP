@@ -8,7 +8,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     filename='bot.log'
                     )
 
-#print()
+print(Config.TELUSER)
 
 def greet_user(bot, update):
     #print(f'Вызван /start {update}')
