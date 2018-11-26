@@ -17,9 +17,6 @@ class UserClassification:
         elif 22 <= age < 65: print('На работу')
         else: print('На пенсию')
 
-    def www():
-    	pass
-
 
 age = UserClassification.input_age()
 if age != False:
