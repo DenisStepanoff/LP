@@ -4,10 +4,10 @@ class UserClassification:
     		age = float(input('Введите свой возраст: '))
     	except ValueError:
     		print('Введенное значение не является числом')
-    		return False
+    		return None
     	if age <= 0:
-    		print('Ввелено отрицательное число или ноль')
-    		return False
+    		print('Введено отрицательное число или ноль')
+    		return None
     	return age
 
     def line_of_work(age):
@@ -19,5 +19,5 @@ class UserClassification:
 
 
 age = UserClassification.input_age()
-if age != False:
+if age != None:
 	UserClassification.line_of_work(age)

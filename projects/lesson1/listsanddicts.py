@@ -20,7 +20,9 @@ d = {'city': "Moscow", 'temperature': '20'}
 print(d.get('city'))
 d['temperature'] = str(int(d['temperature']) - 5)
 print(d)
-print(d.__contains__('country'))
+#print(d.__contains__('country'))
+# "in" usage:
+print('country' in d)
 print(d.get('country', 'Russia'))
 d['date'] = '27.05.2017'
 #print(l)

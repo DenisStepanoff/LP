@@ -16,6 +16,7 @@ def string_compare(str1, str2):
 
 
 print(string_compare(1,2))
+print(string_compare(1,'qwe'))
 print(string_compare('qwerty','qwerty'))
 print(string_compare('12345','123'))
 print(string_compare('123','learn'))

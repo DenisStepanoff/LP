@@ -1,7 +1,7 @@
-class hello:
+class HelloUser:
 
 	def input_name():
-		name = input()
+		name = input('Ведите свое имя: ')
 		if name == '':
 		    return 'NoName'
 		return name
@@ -11,8 +11,8 @@ class hello:
 
 
 def main():
-	name = hello.input_name()
-	hello.hello_name(name)
+	name = HelloUser.input_name()
+	HelloUser.hello_name(name)
 
 
 if __name__ == '__main__':
