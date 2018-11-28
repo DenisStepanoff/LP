@@ -23,14 +23,16 @@ class Dialog:
         while 1:
             try:
                 question = input('Ваш вопрос: ')
-                if question.capitalize() in self.answers_dict:
-                    print(self.answers_dict[question.capitalize()])
+                print(self.answers_dict.get(question.capitalize()))
             except KeyboardInterrupt:
                 print('\nПока!')
                 break
             
 
-dialog = Dialog(QUESTION_ANSWER1)
-#dialog = Dialog(QUESTION_ANSWER2)
-dialog.question_answer()
+if __name__ == '__main__':
+    
+    dialog1 = Dialog(QUESTION_ANSWER1)
+    dialog2 = Dialog(QUESTION_ANSWER2)
+    dialog1.question_answer()
+    dialog2.question_answer()
 
