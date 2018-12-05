@@ -19,5 +19,5 @@ class UserClassification:
 
 
 age = UserClassification.input_age()
-if age != None:
+if age:
 	UserClassification.line_of_work(age)

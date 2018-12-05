@@ -14,13 +14,13 @@ class Dialog:
         self.answers_dict = answers_dict
 
     def ask_user():
-        while 1:
+        while True:
             answer = input('Как дела?  ')
             if answer.lower() == 'хорошо':
                 break
 
     def question_answer(self):
-        while 1:
+        while True:
             try:
                 question = input('Ваш вопрос: ')
                 print(self.answers_dict.get(question.capitalize()))
