@@ -1,14 +1,16 @@
 from config import Config
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
+import ephem
 
+PLANETS = {'mars':ephem.Mars, 'mercury':ephem.Mercury, 'pluto':ephem.Pluto}
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
                     filename='bot.log'
                     )
 
-print(Config.TELUSER)
+#print()
 
 def greet_user(bot, update):
     #print(f'Вызван /start {update}')
@@ -22,6 +24,13 @@ def talk_to_me(bot, update):
     logging.info(f'User: {update.message.chat.first_name} {update.message.chat.last_name}, Chat ID: {update.message.chat.id}, Message: {update.message.text}')
     update.message.reply_text(user_text)
 
+def planet_constell(bot, update):
+    planet = update.message.text.split(' ')[1]
+    #print(planet)
+    planet_now = PLANETS[planet.lower()](ephem.now())
+    user_text = ephem.constellation(planet_now)
+    update.message.reply_text(user_text)
+
 
 def main():
     mybot = Updater(Config.TOKEN, request_kwargs=Config.PROXY)
@@ -31,6 +40,7 @@ def main():
     dp = mybot.dispatcher
 
     dp.add_handler(CommandHandler("start", greet_user))
+    dp.add_handler(CommandHandler("planet", planet_constell))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
 
     mybot.start_polling()
