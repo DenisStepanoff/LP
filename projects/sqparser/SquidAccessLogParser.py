@@ -1,5 +1,6 @@
 import re
 import csv
+import requests
 
 
 class SquidAccessLogParser:
@@ -35,6 +36,16 @@ class SquidAccessLogParser:
         writer.writeheader()
         for log_line in self.log_file:
             writer.writerow(self.__row_parse(log_line))
+            
+
+def upload_file(file_name):
+    url = 'http://127.0.0.1:8000/file/upload/'
+    upload_file_handle = open(file_name, 'rb')
+    files = {'file': upload_file_handle}
+    try:
+        r = requests.post(url, files=files)
+    finally:
+        upload_file_handle.close()
 
 
 
@@ -43,6 +54,8 @@ def main():
     #pass
     parser = SquidAccessLogParser('access.log', 'parsed.csv')
     parser.get_csv()
+
+    upload_file('parsed.csv')
 
 
 if __name__ == '__main__':
