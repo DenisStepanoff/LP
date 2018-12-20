@@ -16,7 +16,8 @@ class SquidAccessLogParser:
         self.csv_file.close()
 
     def __row_parse(self, row):
-        split_row = re.split(" {1,6}", row)
+        
+        split_row = re.split('\s+', row)
 
         line_in_dict = {
         'utime': int(float(split_row[0])),
@@ -36,7 +37,7 @@ class SquidAccessLogParser:
         writer.writeheader()
         for log_line in self.log_file:
             writer.writerow(self.__row_parse(log_line))
-            
+
 
 def upload_file(file_name):
     url = 'http://127.0.0.1:8000/file/upload/'
@@ -55,7 +56,7 @@ def main():
     parser = SquidAccessLogParser('access.log', 'parsed.csv')
     parser.get_csv()
 
-    upload_file('parsed.csv')
+    #upload_file('parsed.csv')
 
 
 if __name__ == '__main__':
