@@ -2,13 +2,15 @@ import re
 import sys
 import datetime
 import logging
+import csv
+import requests
 
 class AccessLogParser:
 
     def __init__(self, log_file_name, csv_file_name):
 
         #TODO: kick LOG_FIELDS, RE_RULES, LOG_FIELDS and tokern_type values in separate config file
-        self.LOG_FIELDS = ('utime', 'elapsed', 'client', 'response', 'bytes', 'method', 'url', 'ident', 'hierarchy', 'mimetype')
+        
         self.DELIMITER, self.DATE, self.RAW, self.EMPTY_DATA = range(4)
         self.RE_RULES = [
             ('\s+', self.DELIMITER),
@@ -19,7 +21,7 @@ class AccessLogParser:
         self.log_file_name = log_file_name
         self.csv_file_name = csv_file_name
 
-
+    # lexic analyzer
     def __lexic_analyzer(self, rules):
 
         re_prep = [(re.compile(regexp), token_type) for regexp, token_type in rules]  # compile RE
@@ -38,12 +40,13 @@ class AccessLogParser:
             
         return __lex
 
-
+    # syntax analyzer
     def __syntax_analyzer(self, line):
 
         lexer = self.__lexic_analyzer(self.RE_RULES)  # call recursion function
-        tokens = lexer(line)                          # start recursion string lexic analize
+        tokens = lexer(line)                          # start recursion for string lexic analize
         field_index = 0
+        line_in_dict = {}
 
         for re_match, token_type in tokens:           # cicle for syntax analize
             
@@ -59,22 +62,43 @@ class AccessLogParser:
             field_name = self.LOG_FIELDS[field_index] # return field name by field index
             field_index += 1
 
-            print('{},{}'.format(field_name, value))
+            line_in_dict[field_name] = value          # write parsed data in output dict
 
+            #print('{},{}'.format(field_name, value))
 
+        return line_in_dict
+
+    # file operatios
     def get_csv(self):
 
-        with open(self.log_file_name, 'r') as logfile:
+        with open(self.log_file_name, 'r') as log_file:
+            with open(self.csv_file_name, 'w') as csv_file:
+                writer = csv.DictWriter(csv_file, self.LOG_FIELDS, delimiter=';')
+                writer.writeheader()
 
-            for line in logfile:
-                self.__syntax_analyzer(line)
-                print('---------------------------------------------')
+                for line in log_file:
+                    writer.writerow(self.__syntax_analyzer(line))
+                #print('---------------------------------------------')
+
+# upload csv into django web site with django REST framework
+class CommWithRestApi():
+ 
+    def upload_file(file_name):
+        url = 'http://127.0.0.1:8000/file/upload/'
+        upload_file_handle = open(file_name, 'rb')
+        files = {'file': upload_file_handle}
+        try:
+            r = requests.post(url, files=files)
+        finally:
+        upload_file_handle.close()
 
 
 def main():
     
     parser = AccessLogParser('access.log', 'parsed.csv')
     parser.get_csv()
+
+    #upload_file('parsed.csv')
 
 if __name__ == '__main__':
     main()
