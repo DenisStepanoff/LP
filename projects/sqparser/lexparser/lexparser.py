@@ -1,7 +1,6 @@
 import re
 import sys
 import datetime
-import logging
 import csv
 import requests
 
@@ -71,11 +70,12 @@ class AccessLogParser:
     # file operatios
     def get_csv(self):
 
-        with open(self.log_file_name, 'r') as log_file:
-            with open(self.csv_file_name, 'w') as csv_file:
-                writer = csv.DictWriter(csv_file, self.LOG_FIELDS, delimiter=';')
-                writer.writeheader()
-
+        with open(self.log_file_name, 'r') as log_file:                           # open logfile
+            with open(self.csv_file_name, 'w') as csv_file:                       # open CSV file
+                writer = csv.DictWriter(csv_file, self.LOG_FIELDS, delimiter=';') # create csv writer object
+                writer.writeheader()                                              # write headers in csv
+                
+                # parse each line in logfile and write parsed data in csvfile
                 for line in log_file:
                     writer.writerow(self.__syntax_analyzer(line))
                 #print('---------------------------------------------')
@@ -84,13 +84,14 @@ class AccessLogParser:
 class CommWithRestApi():
  
     def upload_file(file_name):
+
         url = 'http://127.0.0.1:8000/file/upload/'
         upload_file_handle = open(file_name, 'rb')
         files = {'file': upload_file_handle}
         try:
             r = requests.post(url, files=files)
         finally:
-        upload_file_handle.close()
+            upload_file_handle.close()
 
 
 def main():
@@ -98,7 +99,7 @@ def main():
     parser = AccessLogParser('access.log', 'parsed.csv')
     parser.get_csv()
 
-    #upload_file('parsed.csv')
+    #CommWithRestApi.upload_file('parsed.csv')
 
 if __name__ == '__main__':
     main()
