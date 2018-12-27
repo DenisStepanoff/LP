@@ -11,8 +11,8 @@ url = 'http://127.0.0.1:8000/file/upload/'# url django rest framework
 # parse log file and create csv file with parsed data
 def get_csv(log_file_name, csv_file_name):
 
-    df = pd.read_csv(log_file_name, sep=delimiter, header=None, chunksize=chunk_size)
-    for chunk in df:
+    data_file = pd.read_csv(log_file_name, sep=delimiter, header=None, chunksize=chunk_size)
+    for chunk in data_file:
       chunk.to_csv(csv_file_name, header=None, mode='a')
 
 # upload csv into django web site with django REST framework 
